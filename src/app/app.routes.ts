@@ -118,6 +118,13 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'cdk-examples',
+		loadComponent: () =>
+			import('./pages/cdk/cdk-examples.component').then(
+				(m) => m.CdkExamplesComponent
+			)
+	},
+	{
 		path: '**',
 		redirectTo: 'feature-lab'
 	}
