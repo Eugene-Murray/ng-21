@@ -159,6 +159,13 @@ export class FeatureLabHomeComponent {
       version: 'v20.2+',
       description: 'Modern Angular animations with CSS keyframes for enter/leave transitions.',
       route: '/features/animations'
+    },
+    {
+      title: 'Angular ARIA Showcase',
+      version: 'v21',
+      description:
+        'A full CDK a11y tour: focus monitoring, focus trap, keyboard manager, and live regions.',
+      route: '/aria-showcase'
     }
   ];
 }

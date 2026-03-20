@@ -71,6 +71,11 @@ export const routes: Routes = [
 			import('./pages/signals/signals.component').then((m) => m.SignalsComponent)
 	},
 	{
+		path: 'aria-showcase',
+		loadComponent: () =>
+			import('./pages/aria/aria-showcase.component').then((m) => m.AriaShowcaseComponent)
+	},
+	{
 		path: 'signal-forms',
 		loadComponent: () =>
 			import('./pages/signal-forms/signal-forms.component').then(
