@@ -153,6 +153,12 @@ export class FeatureLabHomeComponent {
       version: 'v19-20 usage',
       description: 'Deferred rendering pattern that powers incremental hydration strategies.',
       route: '/features/defer'
+    },
+    {
+      title: 'animate.enter and animate.leave',
+      version: 'v20.2+',
+      description: 'Modern Angular animations with CSS keyframes for enter/leave transitions.',
+      route: '/features/animations'
     }
   ];
 }

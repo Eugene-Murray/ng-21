@@ -55,6 +55,13 @@ export const routes: Routes = [
 			import('./pages/feature-lab/defer-demo.component').then((m) => m.DeferDemoComponent)
 	},
 	{
+		path: 'features/animations',
+		loadComponent: () =>
+			import('./pages/feature-lab/animations-demo.component').then(
+				(m) => m.AnimationsDemoComponent
+			)
+	},
+	{
 		path: 'todo',
 		component: TodoComponent
 	},
