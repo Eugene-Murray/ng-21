@@ -1,1 +1,33 @@
-<router-outlet />
+<div class="app-shell">
+	<header class="app-header">
+		<h1>Angular Feature Playground</h1>
+		<p>Explore demos from the sidebar.</p>
+	</header>
+
+	<div class="app-body">
+		<aside class="app-sidebar" aria-label="Primary navigation">
+			<nav>
+				<a
+					routerLink="/feature-lab"
+					routerLinkActive="is-active"
+					[routerLinkActiveOptions]="{ exact: true }"
+					>Feature Lab</a
+				>
+				<a
+					routerLink="/todo"
+					routerLinkActive="is-active"
+					[routerLinkActiveOptions]="{ exact: true }"
+					>Todo</a
+				>
+			</nav>
+		</aside>
+
+		<main class="app-main" id="main-content">
+			<router-outlet />
+		</main>
+	</div>
+
+	<footer class="app-footer">
+		<small>Built with Angular 21</small>
+	</footer>
+</div>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TodoFilter, TodoStore } from '../todo.store';
+import { TodoFilter, TodoStore } from '../../signal-store/todo.store';
 
 type TodoStoreInstance = InstanceType<typeof TodoStore>;
 

@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Amina Shaw", "team": "Frontend" },
+  { "id": 2, "name": "Noah Park", "team": "API" },
+  { "id": 3, "name": "Iris Chen", "team": "Data" },
+  { "id": 4, "name": "Luca Marin", "team": "Frontend" },
+  { "id": 5, "name": "Marta Ionescu", "team": "Platform" }
+]
