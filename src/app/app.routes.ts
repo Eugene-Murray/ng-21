@@ -59,6 +59,18 @@ export const routes: Routes = [
 		component: TodoComponent
 	},
 	{
+		path: 'signals',
+		loadComponent: () =>
+			import('./pages/signals/signals.component').then((m) => m.SignalsComponent)
+	},
+	{
+		path: 'signal-forms',
+		loadComponent: () =>
+			import('./pages/signal-forms/signal-forms.component').then(
+				(m) => m.SignalFormsComponent
+			)
+	},
+	{
 		path: '**',
 		redirectTo: 'feature-lab'
 	}
