@@ -1,0 +1,67 @@
+<main class="todo-page">
+  <section class="todo-card" aria-labelledby="todo-title">
+    <header class="todo-header">
+      <h1 id="todo-title">Todo List</h1>
+      <p>{{ store.remainingCount() }} left of {{ store.totalCount() }}</p>
+    </header>
+
+    <form class="todo-form" (submit)="addTodo($event)">
+      <label class="sr-only" for="todo-input">New todo</label>
+      <input
+        id="todo-input"
+        type="text"
+        placeholder="Add a task"
+        [value]="store.draft()"
+        (input)="setDraft($event)"
+      />
+      <button type="submit">Add</button>
+    </form>
+
+    <div class="filters" aria-label="Todo filter">
+      <button
+        type="button"
+        [class.active]="store.filter() === 'all'"
+        (click)="setFilter('all')"
+      >
+        All
+      </button>
+      <button
+        type="button"
+        [class.active]="store.filter() === 'active'"
+        (click)="setFilter('active')"
+      >
+        Active
+      </button>
+      <button
+        type="button"
+        [class.active]="store.filter() === 'completed'"
+        (click)="setFilter('completed')"
+      >
+        Completed
+      </button>
+    </div>
+
+    <ul class="todo-list">
+      @for (todo of store.filteredTodos(); track todo.id) {
+        <li>
+          <label class="todo-item">
+            <input
+              type="checkbox"
+              [checked]="todo.completed"
+              (change)="store.toggleTodo(todo.id)"
+            />
+            <span [class.completed]="todo.completed">{{ todo.text }}</span>
+          </label>
+          <button type="button" (click)="store.removeTodo(todo.id)">Delete</button>
+        </li>
+      } @empty {
+        <li class="empty">No todos in this view.</li>
+      }
+    </ul>
+
+    <footer class="todo-footer">
+      <span>{{ store.completedCount() }} completed</span>
+      <button type="button" (click)="store.clearCompleted()">Clear completed</button>
+    </footer>
+  </section>
+</main>
