@@ -1,0 +1,73 @@
+@use '@angular/material' as mat;
+
+// ── Custom Light Theme ────────────────────────────────────────────────────────
+// Primary: Teal  |  Tertiary: Green
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$green-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+// ── Custom Dark Theme ─────────────────────────────────────────────────────────
+body.dark-theme {
+  color-scheme: dark;
+
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$green-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+  ));
+}
+
+// ── App Shell — Dark Mode Overrides ──────────────────────────────────────────
+// These target class names inside <app-root> from global scope so they win
+// over Angular's emulated-encapsulation attribute selectors (higher specificity).
+
+body.dark-theme app-root .app-shell {
+  background: linear-gradient(160deg, #182420 0%, #111b1f 45%, #1c1813 100%);
+  color: #dff0e8;
+}
+
+body.dark-theme app-root .app-header {
+  background: #0b1f25;
+  color: #c8eadc;
+  border-bottom-color: #0a1c21;
+}
+
+body.dark-theme app-root .app-sidebar {
+  background: #142320;
+  border-right-color: #223530;
+}
+
+body.dark-theme app-root .app-sidebar a {
+  color: #b8d8c8;
+  background: #1a2e26;
+  border-color: #284038;
+}
+
+body.dark-theme app-root .app-sidebar a:hover,
+body.dark-theme app-root .app-sidebar a:focus-visible {
+  background: #204035;
+  border-color: #325a48;
+  outline: none;
+}
+
+body.dark-theme app-root .app-sidebar a.is-active {
+  background: #2e7d63;
+  border-color: #2e7d63;
+  color: #ffffff;
+}
+
+body.dark-theme app-root .app-footer {
+  background: #0b1f25;
+  color: #7aaa90;
+  border-top-color: #0a1c21;
+}
