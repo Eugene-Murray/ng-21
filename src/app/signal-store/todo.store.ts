@@ -1,11 +1,13 @@
 import { computed } from '@angular/core';
 import {
+  getState,
   patchState,
   signalStore,
   withComputed,
   withMethods,
   withState
 } from '@ngrx/signals';
+import { connectDevTools } from './devtools.util';
 
 export type TodoFilter = 'all' | 'active' | 'completed';
 
@@ -49,46 +51,56 @@ export const TodoStore = signalStore(
     remainingCount: computed(() => todos().filter((todo) => !todo.completed).length),
     completedCount: computed(() => todos().filter((todo) => todo.completed).length)
   })),
-  withMethods((store) => ({
-    setDraft(text: string): void {
-      patchState(store, { draft: text });
-    },
-    addTodo(): void {
-      const text = store.draft().trim();
-      if (!text) {
-        return;
+  withMethods((store) => {
+    const log = connectDevTools('TodoStore', () => getState(store));
+
+    return {
+      setDraft(text: string): void {
+        patchState(store, { draft: text });
+        log('setDraft');
+      },
+      addTodo(): void {
+        const text = store.draft().trim();
+        if (!text) {
+          return;
+        }
+
+        const newTodo: Todo = {
+          id: Date.now(),
+          text,
+          completed: false
+        };
+
+        patchState(store, (state) => ({
+          todos: [...state.todos, newTodo],
+          draft: ''
+        }));
+        log('addTodo');
+      },
+      toggleTodo(id: number): void {
+        patchState(store, (state) => ({
+          todos: state.todos.map((todo) =>
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+          )
+        }));
+        log('toggleTodo');
+      },
+      removeTodo(id: number): void {
+        patchState(store, (state) => ({
+          todos: state.todos.filter((todo) => todo.id !== id)
+        }));
+        log('removeTodo');
+      },
+      clearCompleted(): void {
+        patchState(store, (state) => ({
+          todos: state.todos.filter((todo) => !todo.completed)
+        }));
+        log('clearCompleted');
+      },
+      setFilter(filter: TodoFilter): void {
+        patchState(store, { filter });
+        log('setFilter');
       }
-
-      const newTodo: Todo = {
-        id: Date.now(),
-        text,
-        completed: false
-      };
-
-      patchState(store, (state) => ({
-        todos: [...state.todos, newTodo],
-        draft: ''
-      }));
-    },
-    toggleTodo(id: number): void {
-      patchState(store, (state) => ({
-        todos: state.todos.map((todo) =>
-          todo.id === id ? { ...todo, completed: !todo.completed } : todo
-        )
-      }));
-    },
-    removeTodo(id: number): void {
-      patchState(store, (state) => ({
-        todos: state.todos.filter((todo) => todo.id !== id)
-      }));
-    },
-    clearCompleted(): void {
-      patchState(store, (state) => ({
-        todos: state.todos.filter((todo) => !todo.completed)
-      }));
-    },
-    setFilter(filter: TodoFilter): void {
-      patchState(store, { filter });
-    }
-  }))
+    };
+  })
 );
