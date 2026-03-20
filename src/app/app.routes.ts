@@ -111,6 +111,13 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'material-examples',
+		loadComponent: () =>
+			import('./pages/material/material-examples.component').then(
+				(m) => m.MaterialExamplesComponent
+			)
+	},
+	{
 		path: '**',
 		redirectTo: 'feature-lab'
 	}
