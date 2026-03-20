@@ -187,6 +187,13 @@ export class FeatureLabHomeComponent {
       description:
         'A full CDK a11y tour: focus monitoring, focus trap, keyboard manager, and live regions.',
       route: '/aria-showcase'
+    },
+    {
+      title: 'RxJS Examples',
+      version: 'RxJS 7.8',
+      description:
+        '35+ interactive operator demos across 7 categories — Creation, Transformation, Filtering, Combination, Error Handling, Multicasting, and Utility.',
+      route: '/rxjs-examples'
     }
   ];
 }

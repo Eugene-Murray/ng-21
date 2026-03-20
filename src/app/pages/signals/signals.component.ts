@@ -9,7 +9,9 @@ import {
   signal,
   untracked
 } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { interval, map, scan, Subject } from 'rxjs';
 
 type TeamKey = 'frontend' | 'platform' | 'design';
 
@@ -92,6 +94,46 @@ type TeamKey = 'frontend' | 'platform' | 'design';
         <input id="note" [value]="note()" (input)="setNote($event)" />
 
         <p class="meta">Preview: {{ titlePreview() }}</p>
+      </section>
+
+      <section class="card" aria-labelledby="to-signal-title">
+        <h2 id="to-signal-title">toSignal()</h2>
+        <p>
+          Converts an Observable into a Signal. The timer below wraps
+          <code>interval(1000)</code> — no <code>async</code> pipe needed.
+        </p>
+        <p class="meta">Elapsed: <strong>{{ elapsedSeconds() }}s</strong></p>
+      </section>
+
+      <section class="card" aria-labelledby="to-observable-title">
+        <h2 id="to-observable-title">toObservable()</h2>
+        <p>
+          Converts a Signal into an Observable. The <code>count</code> signal is
+          piped through <code>scan()</code> to accumulate a change history, then
+          converted back to a Signal via <code>toSignal()</code>. Increment or
+          decrement the counter above to see the history grow.
+        </p>
+        <p class="meta">
+          Last 5 values: <strong>{{ countHistory().join(' → ') || '—' }}</strong>
+        </p>
+      </section>
+
+      <section class="card" aria-labelledby="take-until-title">
+        <h2 id="take-until-title">takeUntilDestroyed()</h2>
+        <p>
+          Automatically completes a subscription when the component is destroyed.
+          Messages are pushed through a <code>Subject</code>; no manual
+          <code>unsubscribe()</code> or <code>ngOnDestroy</code> is needed.
+        </p>
+        <button type="button" (click)="pushLog()">Push log entry</button>
+        <ul class="log">
+          @for (msg of logMessages(); track msg) {
+            <li>{{ msg }}</li>
+          }
+          @if (!logMessages().length) {
+            <li class="meta">(no entries yet — click the button)</li>
+          }
+        </ul>
       </section>
 
       <a class="back-link" routerLink="/feature-lab">Back to Feature Lab</a>
@@ -200,6 +242,24 @@ type TeamKey = 'frontend' | 'platform' | 'design';
         font-weight: 600;
         color: #0b5e71;
       }
+
+      code {
+        font-size: 0.9em;
+        background: #edf4f7;
+        border-radius: 0.25rem;
+        padding: 0.05em 0.3em;
+      }
+
+      .log {
+        margin-top: 0.5rem;
+        padding-left: 1.1rem;
+        font-size: 0.88rem;
+        color: #213f48;
+      }
+
+      .log li {
+        margin: 0.2rem 0;
+      }
     `
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -231,11 +291,32 @@ export class SignalsComponent {
     () => `${this.label()} - ${this.count()} (${untracked(() => this.note())})`
   );
 
+  // rxjs-interop: toSignal — convert interval(1000) Observable to a Signal
+  readonly elapsedSeconds = toSignal(interval(1000).pipe(map((n) => n + 1)), {
+    initialValue: 0
+  });
+
+  // rxjs-interop: toObservable — count Signal → Observable → history → Signal
+  readonly countHistory = toSignal(
+    toObservable(this.count).pipe(
+      scan((acc, value) => [...acc.slice(-4), value], [] as number[])
+    ),
+    { initialValue: [] as number[] }
+  );
+
+  // rxjs-interop: takeUntilDestroyed — log entries auto-cleaned on destroy
+  readonly logMessages = signal<string[]>([]);
+  private readonly logSource$ = new Subject<string>();
+
   constructor() {
     effect(() => {
       this.document.title = `${this.label()} | Count ${this.count()}`;
       untracked(() => this.note());
     });
+
+    this.logSource$
+      .pipe(takeUntilDestroyed())
+      .subscribe((msg) => this.logMessages.update((msgs) => [...msgs.slice(-4), msg]));
   }
 
   increment(): void {
@@ -261,5 +342,11 @@ export class SignalsComponent {
 
   setSelectedMember(event: Event): void {
     this.selectedMember.set((event.target as HTMLSelectElement).value);
+  }
+
+  pushLog(): void {
+    this.logSource$.next(
+      `[${new Date().toLocaleTimeString()}] Entry #${this.logMessages().length + 1}`
+    );
   }
 }

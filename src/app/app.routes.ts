@@ -104,6 +104,13 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'rxjs-examples',
+		loadComponent: () =>
+			import('./pages/rxjs/rxjs-examples.component').then(
+				(m) => m.RxjsExamplesComponent
+			)
+	},
+	{
 		path: '**',
 		redirectTo: 'feature-lab'
 	}
