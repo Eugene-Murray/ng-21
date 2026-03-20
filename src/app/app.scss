@@ -104,6 +104,11 @@
 .theme-toggle {
 	color: #f3fbff !important;
 	flex-shrink: 0;
+
+	i {
+		font-size: 1.25rem;
+		line-height: 1;
+	}
 }
 
 /* ── Smooth theme transitions ───────────────────────────────────────── */
