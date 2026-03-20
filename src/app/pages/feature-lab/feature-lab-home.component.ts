@@ -161,6 +161,27 @@ export class FeatureLabHomeComponent {
       route: '/features/animations'
     },
     {
+      title: 'Agentic starter workflow',
+      version: 'v21 + Genkit pattern',
+      description:
+        'Starter page inspired by Genkit + Angular chat flows with session context and stepwise agent actions.',
+      route: '/features/agentic-starter'
+    },
+    {
+      title: 'AI Text Editor template',
+      version: 'Gemini API',
+      description:
+        'Prompt-based text refinement, expansion, and formalization via Gemini HTTP calls.',
+      route: '/ai-text-editor'
+    },
+    {
+      title: 'AI Chatbot template',
+      version: 'Gemini API',
+      description:
+        'Chat UI starter that sends conversation history to Gemini and renders model replies.',
+      route: '/ai-chatbot'
+    },
+    {
       title: 'Angular ARIA Showcase',
       version: 'v21',
       description:

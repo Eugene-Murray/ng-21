@@ -62,6 +62,27 @@ export const routes: Routes = [
 			)
 	},
 	{
+		path: 'features/agentic-starter',
+		loadComponent: () =>
+			import('./pages/agentic/agentic-starter.component').then(
+				(m) => m.AgenticStarterComponent
+			)
+	},
+	{
+		path: 'ai-text-editor',
+		loadComponent: () =>
+			import('./pages/ai-text-editor/ai-text-editor.component').then(
+				(m) => m.AiTextEditorComponent
+			)
+	},
+	{
+		path: 'ai-chatbot',
+		loadComponent: () =>
+			import('./pages/ai-chatbot/ai-chatbot.component').then(
+				(m) => m.AiChatbotComponent
+			)
+	},
+	{
 		path: 'todo',
 		component: TodoComponent
 	},
