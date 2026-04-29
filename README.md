@@ -1,5 +1,8 @@
 # Ng21
 
+<img width="2498" height="976" alt="image" src="https://github.com/user-attachments/assets/56972b16-cac7-4a7a-8dcc-7c555f08b375" />
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
 
 ## Development server
